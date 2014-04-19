@@ -1,0 +1,13 @@
+/* Empty. Add your own CSS if you like */
+.completed .item-content {
+    color: #a9a9a9;
+    text-decoration: line-through;
+    font-weight: bold;
+}
+
+.task-empty {
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 40px;
+    font-size: 15px;
+}
