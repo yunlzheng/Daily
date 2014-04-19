@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ionicDaily" >
 <head>
     <meta charset="utf-8">
     <title>Todo</title>
@@ -12,84 +12,13 @@
     <!-- Needed for Cordova/PhoneGap (will be a 404 during development) -->
     <script src="cordova.js"></script>
 </head>
-<body ng-app="ionicDaily" ng-controller="MainCtrl">
+<body>
 
-    <ion-header-bar class="bar-positive">
-        <h1 class="title">知乎Daily</h1>
-    </ion-header-bar>
+    <ion-nav-bar class="nav-title-slide-ios7 bar-positive">
+        <ion-nav-back-button class="button-icon ion-arrow-left-c"></ion-nav-back-button>
+    </ion-nav-bar>
 
-    <ion-content>
-
-        <div class="list">
-
-            <a ng-repeat="new in news"
-               href="#/{{new.id}}"
-               class="item item-thumbnail-left">
-                <img ng-src="{{ new.thumbnail }}">
-                <h2>{{ new.title }}</h2>
-                <h4>{{ item.artist }}</h4>
-            </a>
-
-        </div>
-
-    </ion-content>
-
-    <!--<ion-side-menus>-->
-
-        <!--&lt;!&ndash; Center content &ndash;&gt;-->
-        <!--<ion-side-menu-content>-->
-            <!--<ion-header-bar class="bar-stable">-->
-                <!--<button class="button button-icon" ng-click="toggleProjects()">-->
-                    <!--<i class="icon ion-ios7-browsers-outline"></i>-->
-                <!--</button>-->
-                <!--<h1 class="title">{{activeProject.title}}</h1>-->
-                <!--&lt;!&ndash; New Task button&ndash;&gt;-->
-                <!--<div class="buttons">-->
-                    <!--<button class="button button-icon" ng-click="newTask()">-->
-                        <!--<i class="icon ion-ios7-plus-outline"></i>-->
-                    <!--</button>-->
-                    <!--<button class="button  button-icon icon  ion-ios7-drag"-->
-                            <!--ng-click="data.showDelete = false; data.showReorder = !data.showReorder">-->
-
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</ion-header-bar>-->
-            <!--<ion-content scroll="false">-->
-                <!--<p ng-if="activeProject.tasks.length==0" class="task-empty">Empty Task List</p>-->
-                <!--&lt;!&ndash; our list and list items &ndash;&gt;-->
-                <!--<ion-list show-delete="data.showDelete" show-reorder="data.showReorder"-->
-                          <!--can-swipe="true" can-reorder="true" can-delete="true"-->
-                          <!--on-delete="onTaskDelete(item)"-->
-                          <!--option-buttons="optionButtons"-->
-                          <!--on-reoder="onMoveTask(item, fromIndex, toIndex)">-->
-
-                    <!--<ion-item ng-repeat="task in activeProject.tasks"-->
-                              <!--item="task" ng-class="{ completed: task.complete }">-->
-                        <!--{{task.title}}-->
-
-                    <!--</ion-item>-->
-                <!--</ion-list>-->
-            <!--</ion-content>-->
-        <!--</ion-side-menu-content>-->
-
-        <!--&lt;!&ndash; Left menu &ndash;&gt;-->
-        <!--<ion-side-menu side="left">-->
-            <!--<ion-header-bar class="bar-calm">-->
-                <!--<button class="button button-icon ion-ios7-minus-empty" ng-click="data.showProjectDelete=!data.showProjectDelete"></button>-->
-                <!--<h1 class="title">Projects</h1>-->
-                <!--<button class="button button-icon ion-ios7-plus-empty" ng-click="newProject()">-->
-                <!--</button>-->
-            <!--</ion-header-bar>-->
-            <!--<ion-content scroll="false">-->
-                <!--<ion-list show-delete="data.showProjectDelete" can-delete="true" on-delete="onProjectDelete(item)">-->
-                    <!--<ion-item ng-repeat="project in projects" item="project" ng-click="selectProject(project, $index)" ng-class="{active: isActiveProject(project)}">-->
-                        <!--{{project.title}}-->
-                    <!--</ion-item>-->
-                <!--</ion-list>-->
-            <!--</ion-content>-->
-        <!--</ion-side-menu>-->
-
-    <!--</ion-side-menus>-->
+    <ion-nav-view animation="slide-left-right"></ion-nav-view>
 
 </body>
 </html>

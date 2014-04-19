@@ -1,0 +1,11 @@
+<ion-view title="Home">
+
+    <div class="list">
+        <a ng-repeat="item in news" ng-href="#/daily/news/{{item.id}}" class="item item-thumbnail-left">
+            <img ng-src="{{ item.thumbnail }}">
+            <h2>{{ item.title }}</h2>
+            <h4>{{ item.artist }}</h4>
+        </a>
+    </div>
+
+</ion-view>
