@@ -1,4 +1,7 @@
-Inoic Todo App
-==============
+Daily
+=====
 
-A Inoic TODO app follow by the Inoic site guide.
+Daily mobile base on ionic framework
+
+!()[www/img/ScreenShot-2014-04-19.png]
+
