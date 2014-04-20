@@ -1,4 +1,11 @@
 /* Empty. Add your own CSS if you like */
+.bar.bar-positive {
+    border-color: #009dd7;
+    background-color: #009dd7;
+    background-image: linear-gradient(0deg, #009dd7, #09AFEC 50%, transparent 50%);
+    color: #fff;
+}
+
 .completed .item-content {
     color: #a9a9a9;
     text-decoration: line-through;
@@ -17,6 +24,18 @@
     line-height: 2em;
     margin: 10px 0 25px;
     padding: 5px;
+}
+
+.content img {
+    max-width: 100%;
+    margin: 10px 0;
+    display: block;
+}
+
+img {
+    vertical-align: middle;
+    color: transparent;
+    font-size: 0;
 }
 
 .meta {
