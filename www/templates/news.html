@@ -1,5 +1,7 @@
 <ion-view title="Daily日报">
 
+    <ion-refresher on-refresh="doRefresh()" pulling-icon="ion-ios7-arrow-thin-down" pulling-text="下拉刷新..." refreshing-text="" refreshing-icon="ion-ios7-reloading">
+    </ion-refresher>
     <ion-list option-buttons="optionButtons">
         <div class="item item-divider">
             今日热点
