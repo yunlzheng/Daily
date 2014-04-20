@@ -1,3 +1,11 @@
-<ion-view title="Story">
-    <h2>new</h2>
+<ion-view class="story" title="{{ data.title }}">
+    <!--<div class="headline">-->
+        <!--<div class="img-wrap">-->
+            <!--<h3 class="headline-title" ng-bind="data.title"></h3>-->
+            <!--<span class="img-source" ng-bind="image_source"></span>-->
+            <!--<img ng-src="data.image" alt="">-->
+            <!--<div class="img-mask"></div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="content" ng-bind-html="data.body"></div>
 </ion-view>
