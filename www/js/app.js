@@ -139,7 +139,8 @@ angular.module('ionicDaily', ['ionic'])
             var before = Dailys.before();
             if(before != undefined){
                 Dailys.fetchBeforeDay(before.date).success(function(data){
-                   storageDailyAndCompleteScrollFresh(data);
+                    replaceOrPushInLocal(data);
+                    $scope.dailys = Dailys.all();
                 });
                 scrollComplete();
             }
@@ -175,16 +176,9 @@ angular.module('ionicDaily', ['ionic'])
             });
         }
 
-        function storageDailyAndCompleteScrollFresh(data) {
-            replaceOrPushInLocal(data);
-            Dailys.saveAll($scope.storage);
-            $scope.dailys = Dailys.all();
-        }
-
         function storeDailyAndCompleteFresh(data) {
             
             replaceOrPushInLocal(data);
-            Dailys.saveAll($scope.storage);
             $scope.dailys = Dailys.all();
             refreshComplete();
         }
@@ -203,6 +197,7 @@ angular.module('ionicDaily', ['ionic'])
             if(!replaced){
                 $scope.storage.push(data);
             }
+            Dailys.saveAll($scope.storage);
         }
         
         fetchLatest();
