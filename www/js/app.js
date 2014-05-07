@@ -42,7 +42,7 @@ angular.module('ionicDaily', ['ionic'])
     .factory('Dailys', function($http, storageKey) {
 
         function getTitle(item) {
-            return item.is_today? '今日热点': item.date;
+            return item.is_today ? '今日热点': item.date;
         }
 
         function generateNew(news) {
@@ -157,7 +157,7 @@ angular.module('ionicDaily', ['ionic'])
         /**
          * Let Pull refresh complete.
          * */
-        function refrshComplete() {
+        function refreshComplete() {
             $timeout( function() {
                 $scope.$broadcast('scroll.refreshComplete');
             }, 1000);
@@ -186,7 +186,7 @@ angular.module('ionicDaily', ['ionic'])
             replaceOrPushInLocal(data);
             Dailys.saveAll($scope.storage);
             $scope.dailys = Dailys.all();
-            refrshComplete();
+            refreshComplete();
         }
 
         /**
