@@ -37,48 +37,52 @@ angular.module('ionicDaily', ['ionic'])
             $urlRouterProvider.otherwise("/daily/news");
     })
 
-    .factory('Dailys', function($http) {
+    .value('storageKey', 'dailys')
+
+    .factory('Dailys', function($http, storageKey) {
 
         function getTitle(item) {
             return item.is_today? '今日热点': item.date;
         }
 
+        function generateNew(news) {
+            var newsWithDivider = [];
+            angular.forEach(news, function(item) {
+
+                newsWithDivider.push({'title': getTitle(item), 'isDivider': true, 'is_today': item.is_today});
+                angular.forEach(item.news, function(inew){
+                    inew.isDivider=false;
+                    newsWithDivider.push(inew);
+                })
+
+            });
+            return newsWithDivider;
+        }
+
         return {
             all: function() {
-                var news = window.localStorage['dailys'];
+                var news = window.localStorage[storageKey];
                 if(news) {
-                    var news = angular.fromJson(news);
-                    var newsWithDivider = [];
-                    angular.forEach(news, function(item) {
-                       
-                        newsWithDivider.push({'title': getTitle(item), 'isDivider': true, 'is_today': item.is_today});
-                        angular.forEach(item.news, function(inew){
-                            inew.isDivider=false;
-                            newsWithDivider.push(inew);
-                        })
-
-                    });
-                    return newsWithDivider;
+                    return generateNew(angular.fromJson(news));
                 }
                 return [];
             },
             before: function() {
-                var news = window.localStorage['dailys'];
+                var news = window.localStorage[storageKey];
                 if(news) {
                     var news = angular.fromJson(news);
-                    console.log(news);
                     return news[news.length-1];
                 }
             },
             storage: function() {
-                var news = window.localStorage['dailys'];
+                var news = window.localStorage[storageKey];
                 if (news) {
                     return angular.fromJson(news);
                 }
                 return [];
             },
             clean: function() {
-                //window.localStorage.removeItem('dailys');
+                //window.localStorage.removeItem(storageKey);
             },
             saveAll: function(news) {
                 window.localStorage['dailys'] = angular.toJson(news);
@@ -97,6 +101,12 @@ angular.module('ionicDaily', ['ionic'])
     }) 
 
     .controller('NewsCtrl', function($scope, $timeout, Dailys) {
+
+        /**
+         * Fetch data for localStorage
+         * */
+        $scope.dailys = [];
+        $scope.storage = [];
 
         Dailys.clean();
 
@@ -127,7 +137,6 @@ angular.module('ionicDaily', ['ionic'])
         */
         $scope.loadBefore = function() {
             var before = Dailys.before();
-            console.log(before);
             if(before != undefined){
                 Dailys.fetchBeforeDay(before.date).success(function(data){
                    storageDailyAndCompleteScrollFresh(data);
@@ -195,12 +204,6 @@ angular.module('ionicDaily', ['ionic'])
                 $scope.storage.push(data);
             }
         }
-
-        /**
-         * Fetch data for localStorage
-         * */
-        $scope.dailys = Dailys.all();
-        $scope.storage = Dailys.storage();
         
         fetchLatest();
 
