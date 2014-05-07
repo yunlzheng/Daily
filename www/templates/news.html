@@ -4,14 +4,16 @@
     </ion-refresher>
 
     <ion-list option-buttons="optionButtons">
-        <div class="item item-divider">
-            今日热点
+        
+        <div ng-repeat-start="item in dailys" class="item item-divider" ng-if="item.isDivider">
+            {{ item.title }}
         </div>
-        <ion-item ng-repeat="item in news" ng-href="#/daily/news/{{item.id}}" class="item item-thumbnail-left">
+        <ion-item ng-repeat-end ng-href="#/daily/news/{{item.id}}" ng-if="!item.isDivider" class="item item-thumbnail-left">
             <img ng-src="{{ item.thumbnail }}">
             <h2>{{ item.title }}</h2>
             <h4>{{ item.artist }}</h4>
         </ion-item>
+        
     </ion-list>
     
     <ion-infinite-scroll on-infinite="loadMore()" distance="1%" icon="ion-loading-c"></ion-infinite-scroll>
