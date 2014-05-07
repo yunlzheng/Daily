@@ -62,6 +62,14 @@ angular.module('ionicDaily', ['ionic'])
                 }
                 return [];
             },
+            before: function() {
+                var news = window.localStorage['dailys'];
+                if(news) {
+                    var news = angular.fromJson(news);
+                    console.log(news);
+                    return news[news.length-1];
+                }
+            },
             storage: function() {
                 var news = window.localStorage['dailys'];
                 if (news) {
@@ -70,7 +78,7 @@ angular.module('ionicDaily', ['ionic'])
                 return [];
             },
             clean: function() {
-                window.localStorage.removeItem('dailys');
+                //window.localStorage.removeItem('dailys');
             },
             saveAll: function(news) {
                 window.localStorage['dailys'] = angular.toJson(news);
@@ -78,8 +86,8 @@ angular.module('ionicDaily', ['ionic'])
             fetchLatest: function() {
                 return $http.get('http://news-at.zhihu.com/api/1.2/news/latest');
             },
-            fetchBeforeDay: function(dayStrs) {
-                return $http.get('http://daily.zhihu.com/api/1.2/news/before/' + dayStrs);
+            fetchBeforeDay: function(before) {
+                return $http.get('http://daily.zhihu.com/api/1.2/news/before/' + before);
             },
             fetchStory: function(id) {
                 return $http.get('http://daily.zhihu.com/api/2/news/' + id)
@@ -115,6 +123,29 @@ angular.module('ionicDaily', ['ionic'])
         };
 
         /**
+        * Scroll refresh 
+        */
+        $scope.loadBefore = function() {
+            var before = Dailys.before();
+            console.log(before);
+            if(before != undefined){
+                Dailys.fetchBeforeDay(before.date).success(function(data){
+                   storageDailyAndCompleteScrollFresh(data);
+                });
+                scrollComplete();
+            }
+        }
+
+        /**
+         * Let Scroll refresh complete.
+         * */
+        function scrollComplete() {
+            $timeout( function() {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }, 1000);
+        }
+
+        /**
          * Let Pull refresh complete.
          * */
         function refrshComplete() {
@@ -135,8 +166,24 @@ angular.module('ionicDaily', ['ionic'])
             });
         }
 
+        function storageDailyAndCompleteScrollFresh(data) {
+            replaceOrPushInLocal(data);
+            Dailys.saveAll($scope.storage);
+            $scope.dailys = Dailys.all();
+        }
+
         function storeDailyAndCompleteFresh(data) {
-            //data.date;
+            
+            replaceOrPushInLocal(data);
+            Dailys.saveAll($scope.storage);
+            $scope.dailys = Dailys.all();
+            refrshComplete();
+        }
+
+        /**
+        * Check if data already existed replace or push in localStorage
+        */
+        function replaceOrPushInLocal(data) {
             var replaced = false;
             angular.forEach($scope.storage, function(item) {
                 if(item.date==data.date){
@@ -147,9 +194,6 @@ angular.module('ionicDaily', ['ionic'])
             if(!replaced){
                 $scope.storage.push(data);
             }
-            Dailys.saveAll($scope.storage);
-            $scope.dailys = Dailys.all();
-            refrshComplete();
         }
 
         /**
@@ -157,6 +201,7 @@ angular.module('ionicDaily', ['ionic'])
          * */
         $scope.dailys = Dailys.all();
         $scope.storage = Dailys.storage();
+        
         fetchLatest();
 
     })
